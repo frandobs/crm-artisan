@@ -1,12 +1,5 @@
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-white dark:bg-black">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-          CRM Artisan
-        </h1>
-        <p className="mt-3 text-lg text-zinc-500 dark:text-zinc-400">Coming Soon</p>
-      </div>
-    </div>
-  );
+import { redirect } from 'next/navigation'
+
+export default function RootPage() {
+  redirect('/dashboard')
 }
