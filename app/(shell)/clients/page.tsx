@@ -7,5 +7,5 @@ export default async function ClientsPage({
   searchParams: Promise<{ success?: string }>
 }) {
   const [clients, params] = await Promise.all([getClients(), searchParams])
-  return <ClientList clients={clients} success={params.success === '1'} />
+  return <ClientList clients={clients} success={params.success} />
 }

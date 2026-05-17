@@ -7,15 +7,21 @@ import { Search, Plus, Users, CheckCircle2 } from 'lucide-react'
 import type { Client } from '@/lib/clients'
 import ClientCard from './ClientCard'
 
-export default function ClientList({ clients, success }: { clients: Client[]; success: boolean }) {
+const toastMessages: Record<string, string> = {
+  added:   'Client added successfully',
+  updated: 'Client updated',
+  deleted: 'Client deleted',
+}
+
+export default function ClientList({ clients, success }: { clients: Client[]; success?: string }) {
   const router = useRouter()
   const [query, setQuery] = useState('')
-  const [showSuccess, setShowSuccess] = useState(success)
+  const [toastKey, setToastKey] = useState(success)
 
   useEffect(() => {
     if (!success) return
     router.replace('/clients')
-    const t = setTimeout(() => setShowSuccess(false), 3000)
+    const t = setTimeout(() => setToastKey(undefined), 3000)
     return () => clearTimeout(t)
   }, [success, router])
 
@@ -40,11 +46,11 @@ export default function ClientList({ clients, success }: { clients: Client[]; su
       </div>
 
       {/* Success toast */}
-      {showSuccess && (
+      {toastKey && toastMessages[toastKey] && (
         <div className="flex items-center gap-2 px-4 py-3" style={{ backgroundColor: '#E8F5E9' }}>
           <CheckCircle2 size={16} strokeWidth={2} style={{ color: 'var(--color-success)', flexShrink: 0 }} />
           <p className="text-[13px] font-medium" style={{ color: 'var(--color-success)' }}>
-            Client added successfully
+            {toastMessages[toastKey]}
           </p>
         </div>
       )}

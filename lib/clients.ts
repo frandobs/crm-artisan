@@ -20,3 +20,15 @@ export async function getClients(): Promise<Client[]> {
   if (error) throw new Error(error.message)
   return data ?? []
 }
+
+export async function getClientById(id: string): Promise<Client | null> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('clients')
+    .select('id, name, phone, email, address, notes, created_at')
+    .eq('id', id)
+    .single()
+
+  if (error) return null
+  return data
+}
