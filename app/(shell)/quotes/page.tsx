@@ -1,10 +1,11 @@
-export default function QuotesPage() {
-  return (
-    <div className="flex items-center justify-center min-h-full p-8 text-center">
-      <div>
-        <p className="section-header mb-2">Quotes</p>
-        <p className="text-neutral-500 text-sm">Coming soon</p>
-      </div>
-    </div>
-  )
+import { getQuotes } from '@/lib/quotes'
+import QuoteList from '@/components/quotes/QuoteList'
+
+export default async function QuotesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ success?: string }>
+}) {
+  const [quotes, params] = await Promise.all([getQuotes(), searchParams])
+  return <QuoteList quotes={quotes} success={params.success} />
 }

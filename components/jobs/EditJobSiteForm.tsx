@@ -132,6 +132,13 @@ export default function EditJobSiteForm({
           }
         </button>
 
+        <Link
+          href={`/quotes/new?jobSiteId=${site.id}`}
+          className="btn btn-secondary"
+        >
+          New quote for this site
+        </Link>
+
       </form>
     </div>
   )
