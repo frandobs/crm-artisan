@@ -1,10 +1,11 @@
-export default function JobsPage() {
-  return (
-    <div className="flex items-center justify-center min-h-full p-8 text-center">
-      <div>
-        <p className="section-header mb-2">Jobs</p>
-        <p className="text-neutral-500 text-sm">Coming soon</p>
-      </div>
-    </div>
-  )
+import { getJobSites } from '@/lib/job-sites'
+import JobSiteList from '@/components/jobs/JobSiteList'
+
+export default async function JobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ success?: string }>
+}) {
+  const [jobSites, params] = await Promise.all([getJobSites(), searchParams])
+  return <JobSiteList jobSites={jobSites} success={params.success} />
 }

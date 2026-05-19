@@ -2,12 +2,12 @@
 
 import { useState, useActionState } from 'react'
 import { Trash2 } from 'lucide-react'
-import { deleteClientAction, type DeleteClientState } from '@/lib/actions/clients'
+import { deleteJobSiteAction, type DeleteJobSiteState } from '@/lib/actions/job-sites'
 
-export default function DeleteClientButton({ clientId }: { clientId: string }) {
+export default function DeleteJobSiteButton({ siteId }: { siteId: string }) {
   const [open, setOpen] = useState(false)
-  const boundAction = deleteClientAction.bind(null, clientId)
-  const [state, formAction, pending] = useActionState<DeleteClientState, FormData>(boundAction, null)
+  const boundAction = deleteJobSiteAction.bind(null, siteId)
+  const [state, formAction, pending] = useActionState<DeleteJobSiteState, FormData>(boundAction, null)
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function DeleteClientButton({ clientId }: { clientId: string }) {
         onClick={e => { e.preventDefault(); setOpen(true) }}
         className="flex items-center justify-center w-10 h-10 shrink-0 rounded-md"
         style={{ color: 'var(--color-neutral-500)' }}
-        aria-label="Delete client"
+        aria-label="Delete job site"
       >
         <Trash2 size={17} strokeWidth={1.75} />
       </button>
@@ -28,7 +28,7 @@ export default function DeleteClientButton({ clientId }: { clientId: string }) {
         >
           <div className="card w-full max-w-xs">
             <p className="font-semibold text-base mb-1" style={{ color: 'var(--color-neutral-900)' }}>
-              Delete client?
+              Delete job site?
             </p>
             <p
               className="text-[13px] mb-6"

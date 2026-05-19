@@ -78,9 +78,28 @@ export async function updateClientAction(
   redirect('/clients?success=updated')
 }
 
-export async function deleteClientAction(id: string): Promise<void> {
+export type DeleteClientState = { error: string } | null
+
+export async function deleteClientAction(
+  id: string,
+  _prev: DeleteClientState,
+  _formData: FormData
+): Promise<DeleteClientState> {
   const supabase = await createClient()
-  await supabase.from('clients').delete().eq('id', id)
+
+  const { count } = await supabase
+    .from('job_sites')
+    .select('id', { count: 'exact', head: true })
+    .eq('client_id', id)
+
+  if (count && count > 0)
+    return { error: 'This client has job sites. Remove all their job sites first.' }
+
+  const { error } = await supabase.from('clients').delete().eq('id', id)
+
+  if (error)
+    return { error: 'Could not delete client. Please try again.' }
+
   revalidatePath('/clients')
   redirect('/clients?success=deleted')
 }
