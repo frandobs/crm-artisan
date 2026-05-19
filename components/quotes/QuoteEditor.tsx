@@ -2,7 +2,7 @@
 
 import { useState, useActionState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Loader2, Plus, X } from 'lucide-react'
+import { ArrowLeft, Loader2, Plus, X, Download } from 'lucide-react'
 import { saveQuoteAction, type QuoteState } from '@/lib/actions/quotes'
 import { calculateQuoteTotal } from '@/lib/calculate-quote-total'
 import type { Quote } from '@/lib/quotes'
@@ -296,6 +296,17 @@ export default function QuoteEditor({
             : 'Send quote'
           }
         </button>
+
+        {quote && (
+          <a
+            href={`/api/quotes/${quote.id}/pdf`}
+            download={`${quote.number}.pdf`}
+            className="btn btn-secondary flex items-center justify-center gap-2"
+          >
+            <Download size={16} strokeWidth={2} />
+            Download PDF
+          </a>
+        )}
 
       </form>
     </div>

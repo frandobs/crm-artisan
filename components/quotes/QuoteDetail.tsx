@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, MapPin, User, Calendar, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, MapPin, User, Calendar, CheckCircle2, Download } from 'lucide-react'
 import type { Quote, QuoteStatus } from '@/lib/quotes'
 import { calculateQuoteTotal } from '@/lib/calculate-quote-total'
 import {
@@ -149,6 +149,16 @@ export default function QuoteDetail({ quote, success }: { quote: Quote; success?
             </p>
           </div>
         )}
+
+        {/* Download PDF */}
+        <a
+          href={`/api/quotes/${quote.id}/pdf`}
+          download={`${quote.number}.pdf`}
+          className="btn btn-secondary flex items-center justify-center gap-2"
+        >
+          <Download size={16} strokeWidth={2} />
+          Download PDF
+        </a>
 
         {/* Actions — sent only */}
         {quote.status === 'sent' && (
