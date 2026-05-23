@@ -12,7 +12,7 @@ const tabs = [
   { href: '/quotes',    label: 'Quotes',     Icon: FileText },
 ]
 
-export default function TabBar() {
+export default function TabBar({ email }: { email: string }) {
   const pathname = usePathname()
 
   return (
@@ -23,10 +23,10 @@ export default function TabBar() {
           <span>{label}</span>
         </Link>
       ))}
-      <form action={signOutAction} className="tab-item">
-        <button type="submit" className="flex flex-col items-center gap-[2px] text-[11px] font-medium" style={{ color: 'inherit' }}>
-          <LogOut size={24} strokeWidth={1.75} />
-          <span>Log out</span>
+      <form action={signOutAction} className="tab-item" style={{ minWidth: 0 }}>
+        <button type="submit" className="flex flex-col items-center gap-[2px] text-[11px] font-medium w-full" style={{ color: 'inherit', minWidth: 0 }}>
+          <LogOut size={24} strokeWidth={1.75} className="shrink-0" />
+          <span className="w-full text-center truncate">{email}</span>
         </button>
       </form>
     </nav>
