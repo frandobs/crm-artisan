@@ -55,6 +55,8 @@ export async function saveQuoteAction(
 
   const status = intent === 'send' ? 'sent' : 'draft'
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   let quoteId = id
 
   if (id) {
@@ -100,6 +102,8 @@ export async function saveQuoteAction(
 
 export async function revertToDraftAction(id: string): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   await supabase.from('quotes').update({ status: 'draft' }).eq('id', id)
   revalidatePath(`/quotes/${id}`)
   redirect(`/quotes/${id}`)
@@ -107,6 +111,8 @@ export async function revertToDraftAction(id: string): Promise<void> {
 
 export async function acceptQuoteAction(id: string): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   await supabase.from('quotes').update({ status: 'accepted' }).eq('id', id)
   revalidatePath('/quotes')
   revalidatePath(`/quotes/${id}`)
@@ -115,6 +121,8 @@ export async function acceptQuoteAction(id: string): Promise<void> {
 
 export async function declineQuoteAction(id: string): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   await supabase.from('quotes').update({ status: 'declined' }).eq('id', id)
   revalidatePath('/quotes')
   revalidatePath(`/quotes/${id}`)
@@ -127,6 +135,8 @@ export async function deleteQuoteAction(
   _formData: FormData,
 ): Promise<DeleteQuoteState> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   const { error } = await supabase.from('quotes').delete().eq('id', id)
   if (error) return { error: 'Could not delete quote. Please try again.' }
   revalidatePath('/quotes')

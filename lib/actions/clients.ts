@@ -29,6 +29,8 @@ export async function createClientAction(
     return { status: 'error', fieldErrors }
 
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
   const { error } = await supabase
     .from('clients')
     .insert({ name, phone, email, address, notes })
@@ -66,6 +68,9 @@ export async function updateClientAction(
     return { status: 'error', fieldErrors }
 
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
   const { error } = await supabase
     .from('clients')
     .update({ name, phone, email, address, notes })
@@ -86,6 +91,8 @@ export async function deleteClientAction(
   _formData: FormData
 ): Promise<DeleteClientState> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
 
   const { count } = await supabase
     .from('job_sites')
