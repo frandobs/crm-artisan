@@ -24,7 +24,7 @@ export default function SignupPage() {
       <div className="card flex flex-col gap-4">
 
         {error && (
-          <div className="rounded-md px-4 py-3" style={{ backgroundColor: '#FFEBEE' }}>
+          <div data-testid="auth-error" className="rounded-md px-4 py-3" style={{ backgroundColor: '#FFEBEE' }}>
             <p className="text-[13px] font-medium" style={{ color: 'var(--color-danger)' }}>
               {error}
             </p>
