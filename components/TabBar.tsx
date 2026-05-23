@@ -23,8 +23,8 @@ export default function TabBar() {
           <span>{label}</span>
         </Link>
       ))}
-      <form action={signOutAction}>
-        <button type="submit" className="tab-item">
+      <form action={signOutAction} className="tab-item">
+        <button type="submit" className="flex flex-col items-center gap-[2px] text-[11px] font-medium" style={{ color: 'inherit' }}>
           <LogOut size={24} strokeWidth={1.75} />
           <span>Log out</span>
         </button>
