@@ -36,7 +36,7 @@ export async function createJobSiteAction(
 
   const { error } = await supabase
     .from('job_sites')
-    .insert({ client_id, name, status, start_date, address, notes })
+    .insert({ user_id: user.id, client_id, name, status, start_date, address, notes })
 
   if (error)
     return { status: 'error', message: 'Could not save job site. Please try again.' }

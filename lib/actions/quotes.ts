@@ -76,7 +76,7 @@ export async function saveQuoteAction(
   } else {
     const { data, error } = await supabase
       .from('quotes')
-      .insert({ job_site_id, title, issue_date, expiry_date, tax_rate, notes, status })
+      .insert({ user_id: user.id, job_site_id, title, issue_date, expiry_date, tax_rate, notes, status })
       .select('id')
       .single()
     if (error || !data) return { status: 'error', message: 'Could not create quote. Please try again.' }

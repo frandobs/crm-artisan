@@ -33,7 +33,7 @@ export async function createClientAction(
   if (!user) redirect('/login')
   const { error } = await supabase
     .from('clients')
-    .insert({ name, phone, email, address, notes })
+    .insert({ user_id: user.id, name, phone, email, address, notes })
 
   if (error)
     return { status: 'error', message: 'Could not save client. Please try again.' }
