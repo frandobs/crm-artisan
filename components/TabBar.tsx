@@ -2,14 +2,14 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Wrench, FileText, MoreHorizontal } from 'lucide-react'
+import { LayoutDashboard, Users, Wrench, FileText, LogOut } from 'lucide-react'
+import { signOutAction } from '@/lib/actions/auth'
 
 const tabs = [
   { href: '/dashboard', label: 'Dashboard', Icon: LayoutDashboard },
   { href: '/clients',   label: 'Clients',   Icon: Users },
   { href: '/jobs',      label: 'Jobs',       Icon: Wrench },
   { href: '/quotes',    label: 'Quotes',     Icon: FileText },
-  { href: '/more',      label: 'More',       Icon: MoreHorizontal },
 ]
 
 export default function TabBar() {
@@ -23,6 +23,12 @@ export default function TabBar() {
           <span>{label}</span>
         </Link>
       ))}
+      <form action={signOutAction}>
+        <button type="submit" className="tab-item">
+          <LogOut size={24} strokeWidth={1.75} />
+          <span>Log out</span>
+        </button>
+      </form>
     </nav>
   )
 }
