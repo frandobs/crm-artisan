@@ -15,6 +15,7 @@
 /test-results
 /playwright-report
 .playwright-mcp
+tests/.auth-state.json
 
 # next.js
 /.next/

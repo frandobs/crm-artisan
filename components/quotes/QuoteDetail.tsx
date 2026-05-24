@@ -40,8 +40,11 @@ export default function QuoteDetail({ quote, success }: { quote: Quote; success?
 
   useEffect(() => {
     if (!success) return
-    router.replace(`/quotes/${quote.id}`)
-    const t = setTimeout(() => setToastKey(undefined), 3000)
+    setToastKey(success)
+    const t = setTimeout(() => {
+      setToastKey(undefined)
+      router.replace(`/quotes/${quote.id}`)
+    }, 3000)
     return () => clearTimeout(t)
   }, [success, router, quote.id])
 

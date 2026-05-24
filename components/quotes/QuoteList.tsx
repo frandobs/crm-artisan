@@ -28,8 +28,11 @@ export default function QuoteList({ quotes, success }: { quotes: Quote[]; succes
 
   useEffect(() => {
     if (!success) return
-    router.replace('/quotes')
-    const t = setTimeout(() => setToastKey(undefined), 3000)
+    setToastKey(success)
+    const t = setTimeout(() => {
+      setToastKey(undefined)
+      router.replace('/quotes')
+    }, 3000)
     return () => clearTimeout(t)
   }, [success, router])
 

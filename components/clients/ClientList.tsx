@@ -20,8 +20,11 @@ export default function ClientList({ clients, success }: { clients: Client[]; su
 
   useEffect(() => {
     if (!success) return
-    router.replace('/clients')
-    const t = setTimeout(() => setToastKey(undefined), 3000)
+    setToastKey(success)
+    const t = setTimeout(() => {
+      setToastKey(undefined)
+      router.replace('/clients')
+    }, 3000)
     return () => clearTimeout(t)
   }, [success, router])
 

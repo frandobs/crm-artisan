@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 import fs from 'fs'
 
-// Make NEXT_PUBLIC_* vars available to global setup (runs outside Next.js)
+// Make NEXT_PUBLIC_* vars available to setup + test workers (outside Next.js)
 try {
   const raw = fs.readFileSync('.env.local', 'utf-8')
   for (const line of raw.split('\n')) {
@@ -17,14 +17,37 @@ export default defineConfig({
   timeout:       30_000,
   expect:        { timeout: 10_000 },
   reporter:      'list',
-  globalSetup:   './tests/global.setup.ts',
 
   use: {
     baseURL: 'http://localhost:3000',
     headless: true,
   },
 
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    // Runs first: ensures test user exists + saves browser auth cookies to disk
+    {
+      name:      'setup',
+      testMatch: /global\.setup\.ts/,
+      use:       { ...devices['Desktop Chrome'] },
+    },
+    // Auth-flow tests: must start unauthenticated
+    {
+      name:         'auth',
+      testMatch:    /auth\.spec\.ts/,
+      dependencies: ['setup'],
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: { cookies: [], origins: [] },
+      },
+    },
+    // CRUD tests
+    {
+      name:         'crud',
+      testMatch:    /crud\.spec\.ts/,
+      dependencies: ['setup'],
+      use:          { ...devices['Desktop Chrome'] },
+    },
+  ],
 
   webServer: {
     command:             'npm run dev',

@@ -36,8 +36,11 @@ export default function JobSiteList({
 
   useEffect(() => {
     if (!success) return
-    router.replace('/jobs')
-    const t = setTimeout(() => setToastKey(undefined), 3000)
+    setToastKey(success)
+    const t = setTimeout(() => {
+      setToastKey(undefined)
+      router.replace('/jobs')
+    }, 3000)
     return () => clearTimeout(t)
   }, [success, router])
 
