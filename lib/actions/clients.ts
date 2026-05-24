@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { isValidEmail } from '@/lib/validate-email'
 
 export type CreateClientState = {
   status: 'error'
@@ -22,7 +23,7 @@ export async function createClientAction(
 
   const fieldErrors: { name?: string; email?: string } = {}
   if (!name) fieldErrors.name = 'Name is required'
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+  if (email && !isValidEmail(email))
     fieldErrors.email = 'Enter a valid email address'
 
   if (Object.keys(fieldErrors).length > 0)
@@ -61,7 +62,7 @@ export async function updateClientAction(
 
   const fieldErrors: { name?: string; email?: string } = {}
   if (!name) fieldErrors.name = 'Name is required'
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+  if (email && !isValidEmail(email))
     fieldErrors.email = 'Enter a valid email address'
 
   if (Object.keys(fieldErrors).length > 0)
